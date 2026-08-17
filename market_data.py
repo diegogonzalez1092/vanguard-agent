@@ -1,42 +1,95 @@
 """
 market_data.py
-Conexion a datos reales de mercado usando la libreria yfinance.
-Obtiene la variacion porcentual del S&P 500 (ticker ^GSPC) durante
-los ultimos N dias, para usarla como senal de mercado del agente.
+Obtiene senales de mercado desde multiples fuentes, con fallback automatico
+si alguna falla:
+
+  1) Yahoo Finance (via yfinance) - fuente primaria
+  2) Stooq (via pandas_datareader) - fuente secundaria de respaldo
+
+Nota: Vanguard no ofrece una API publica gratuita de datos de mercado.
+Como aproximacion robusta, se combinan varios indices (S&P 500, Nasdaq,
+Dow Jones) y el VIX (indice de volatilidad) para armar una senal compuesta,
+en vez de depender de un unico ticker o fuente.
 """
 
-import yfinance as yf
+import statistics
+
+INDICES = {
+    "S&P 500": "^GSPC",
+    "Nasdaq": "^IXIC",
+    "Dow Jones": "^DJI",
+}
+VOLATILIDAD = "^VIX"
 
 
-def obtener_variacion_mensual(ticker: str = "^GSPC", dias: int = 30) -> float:
+def _variacion_yfinance(ticker: str, dias: int = 30) -> float:
+    import yfinance as yf
+    data = yf.download(ticker, period=f"{dias}d", progress=False)
+    if data.empty or len(data) < 2:
+        raise ValueError(f"Sin datos suficientes para {ticker} (yfinance)")
+    inicio = float(data["Close"].iloc[0])
+    fin = float(data["Close"].iloc[-1])
+    return round(((fin - inicio) / inicio) * 100, 2)
+
+
+def _variacion_stooq(ticker_yahoo: str, dias: int = 30) -> float:
+    """Fuente secundaria de respaldo. Stooq usa simbolos distintos a Yahoo."""
+    import pandas_datareader.data as web
+    import datetime
+
+    mapa_stooq = {"^GSPC": "^SPX", "^IXIC": "^NDQ", "^DJI": "^DJI", "^VIX": "^VIX"}
+    simbolo = mapa_stooq.get(ticker_yahoo, ticker_yahoo)
+
+    fin = datetime.date.today()
+    inicio = fin - datetime.timedelta(days=dias + 5)
+    data = web.DataReader(simbolo, "stooq", inicio, fin)
+    data = data.sort_index()
+    if data.empty or len(data) < 2:
+        raise ValueError(f"Sin datos suficientes para {simbolo} (stooq)")
+    precio_inicio = float(data["Close"].iloc[0])
+    precio_fin = float(data["Close"].iloc[-1])
+    return round(((precio_fin - precio_inicio) / precio_inicio) * 100, 2)
+
+
+def obtener_variacion(ticker: str, dias: int = 30) -> dict:
     """
-    Devuelve la variacion porcentual del ticker indicado en los ultimos
-    `dias` dias corridos. Por defecto usa el S&P 500 (^GSPC).
-
-    Si falla la conexion (sin internet, ticker invalido, etc.) devuelve 0.0
-    y avisa por consola, para que el agente pueda seguir funcionando
-    con una senal NEUTRAL.
+    Intenta obtener la variacion de un ticker probando varias fuentes.
+    Devuelve {"valor": float, "fuente": str} o {"valor": None, "fuente": "N/A"}
+    si todas las fuentes fallan.
     """
-    try:
-        data = yf.download(ticker, period=f"{dias}d", progress=False)
+    for nombre_fuente, funcion in [
+        ("Yahoo Finance", _variacion_yfinance),
+        ("Stooq", _variacion_stooq),
+    ]:
+        try:
+            valor = funcion(ticker, dias)
+            return {"valor": valor, "fuente": nombre_fuente}
+        except Exception:
+            continue
+    return {"valor": None, "fuente": "N/A"}
 
-        if data.empty or len(data) < 2:
-            print(f"[market_data] No se obtuvieron datos suficientes para {ticker}.")
-            return 0.0
 
-        precio_inicial = float(data["Close"].iloc[0])
-        precio_final = float(data["Close"].iloc[-1])
+def obtener_senal_compuesta(dias: int = 30) -> dict:
+    """
+    Combina la variacion de varios indices en una sola senal de mercado,
+    mas robusta que depender de un unico indice o fuente.
+    """
+    resultados = {}
+    for nombre, ticker in INDICES.items():
+        resultados[nombre] = obtener_variacion(ticker, dias)
 
-        variacion_pct = ((precio_final - precio_inicial) / precio_inicial) * 100
-        return round(variacion_pct, 2)
+    valores_validos = [r["valor"] for r in resultados.values() if r["valor"] is not None]
+    variacion_promedio = round(statistics.mean(valores_validos), 2) if valores_validos else 0.0
 
-    except Exception as e:
-        print(f"[market_data] Error al obtener datos de mercado: {e}")
-        print("[market_data] Se usara senal NEUTRAL (0.0%) por defecto.")
-        return 0.0
+    vix = obtener_variacion(VOLATILIDAD, dias)
+
+    return {
+        "variacion_promedio": variacion_promedio,
+        "detalle_indices": resultados,
+        "vix": vix,
+    }
 
 
 if __name__ == "__main__":
-    # Prueba rapida: python market_data.py
-    variacion = obtener_variacion_mensual()
-    print(f"Variacion del S&P 500 en los ultimos 30 dias: {variacion}%")
+    import json
+    print(json.dumps(obtener_senal_compuesta(), indent=2, ensure_ascii=False))

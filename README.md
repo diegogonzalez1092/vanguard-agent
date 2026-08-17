@@ -82,11 +82,45 @@ Recomendacion de compra:
 - [x] Reparto del nuevo aporte segun categorias atrasadas.
 - [x] Conexion a API real de mercado (Yahoo Finance via yfinance).
 - [x] Senal de mercado dinamica (alcista/neutral/bajista) ajusta los targets.
-- [ ] Notificacion automatica el dia 1 de cada mes.
+- [x] Interfaz web (Streamlit), desplegada en Streamlit Community Cloud.
+- [x] Multiples fuentes de datos de mercado con fallback (Yahoo Finance + Stooq).
+- [x] Senal compuesta por varios indices (S&P 500, Nasdaq, Dow Jones) + VIX.
+- [x] Screener de oportunidades (ETFs, fondos indice, acciones) fuera de la cartera.
+- [x] Actualizacion automatica 2 veces por dia via GitHub Actions.
 - [ ] Historial de aportes y evolucion del rebalanceo.
-- [ ] Interfaz web simple (Streamlit) en vez de CLI.
+
+## Arquitectura de datos automatizados
+
+```
+GitHub Actions (cron, 2x/dia)
+        │
+        ▼
+  update_data.py  ──►  market_data.py (Yahoo Finance / Stooq)
+        │           ──►  screener.py (ranking de oportunidades)
+        ▼
+data/market_snapshot.json  (se commitea solo al repo)
+        │
+        ▼
+    app.py (Streamlit)  ──►  lee el snapshot, ya no consulta la API en cada visita
+```
+
+## Modulos nuevos
+
+- `market_data.py`: variacion de indices con **fallback entre fuentes** (Yahoo Finance → Stooq).
+- `screener.py`: rankea un universo curado de ETFs, fondos indice y acciones por rendimiento
+  reciente (1 mes), como punto de partida informativo — no es recomendacion personalizada.
+- `update_data.py`: genera `data/market_snapshot.json` con todo lo anterior.
+- `.github/workflows/update-data.yml`: corre `update_data.py` automaticamente 2 veces por dia
+  (horario de mercado) y commitea el snapshot actualizado.
+
+## Aviso importante
+
+Esta herramienta usa datos publicos y logica de rebalanceo simple con fines educativos.
+**No es asesoramiento financiero.** El rendimiento pasado no garantiza resultados futuros.
 
 ## Tecnologias
 
 - Python 3.10+
-- [yfinance](https://pypi.org/project/yfinance/) para datos de mercado en tiempo real
+- [yfinance](https://pypi.org/project/yfinance/) y [pandas-datareader](https://pypi.org/project/pandas-datareader/) (Stooq) para datos de mercado
+- [Streamlit](https://streamlit.io/) para la interfaz web
+- GitHub Actions para automatizacion programada

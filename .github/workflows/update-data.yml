@@ -1,0 +1,37 @@
+name: Actualizar snapshot de mercado
+
+on:
+  schedule:
+    # 14:00 UTC (apertura de mercado US) y 21:00 UTC (post-cierre)
+    - cron: "0 14 * * 1-5"
+    - cron: "0 21 * * 1-5"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  update-snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+
+      - name: Generar snapshot
+        run: python update_data.py
+
+      - name: Commitear cambios si hay
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/market_snapshot.json
+          git diff --staged --quiet || git commit -m "Actualizar snapshot de mercado [automatico]"
+          git push
