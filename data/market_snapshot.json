@@ -1,0 +1,31 @@
+{
+  "actualizado": "2026-08-17T19:02:41.762845Z",
+  "mercado": {
+    "variacion_promedio": 0.0,
+    "detalle_indices": {
+      "S&P 500": {
+        "valor": null,
+        "fuente": "N/A"
+      },
+      "Nasdaq": {
+        "valor": null,
+        "fuente": "N/A"
+      },
+      "Dow Jones": {
+        "valor": null,
+        "fuente": "N/A"
+      }
+    },
+    "vix": {
+      "valor": null,
+      "fuente": "N/A"
+    }
+  },
+  "oportunidades": {
+    "ETF_AMPLIO_MERCADO": [],
+    "ETF_DIVIDENDOS": [],
+    "ETF_TECH_GROWTH": [],
+    "FONDOS_INDICE": [],
+    "ACCIONES_DIVERSIFICADAS": []
+  }
+}
