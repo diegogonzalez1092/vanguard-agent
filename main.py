@@ -53,14 +53,21 @@ def main():
     if modo_manual:
         variacion = float(input("Variacion % del mercado este mes (ej: -6.5): "))
     else:
-        # Intenta traer la variacion real del S&P 500 vía yfinance.
-        # Si falla (sin internet, libreria no instalada, etc.) cae a modo manual.
+        # Intenta traer la senal compuesta real (S&P 500, Nasdaq, Dow Jones + VIX)
+        # via market_data.py. Si falla (sin internet, librerias no instaladas, etc.)
+        # cae a modo manual.
         try:
-            from market_data import obtener_variacion_mensual
-            variacion = obtener_variacion_mensual()
-            print(f"\nVariacion real del S&P 500 (ultimos 30 dias): {variacion}%")
+            from market_data import obtener_senal_compuesta
+            senal_compuesta = obtener_senal_compuesta()
+            variacion = senal_compuesta["variacion_promedio"]
+
+            print(f"\nVariacion promedio de mercado (ultimos 30 dias): {variacion}%")
+            for nombre, datos in senal_compuesta["detalle_indices"].items():
+                print(f"  - {nombre}: {datos['valor']}% (fuente: {datos['fuente']})")
+            vix = senal_compuesta["vix"]
+            print(f"  - VIX (volatilidad): {vix['valor']} (fuente: {vix['fuente']})")
         except ImportError:
-            print("\n[!] No se encontro 'yfinance' instalado. Usando modo manual.")
+            print("\n[!] No se encontraron las librerias de datos de mercado instaladas. Usando modo manual.")
             variacion = float(input("Variacion % del mercado este mes (ej: -6.5): "))
 
     ejecutar_agente(monto_aporte, variacion)
