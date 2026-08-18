@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-08-17T21:53:01.974751Z",
+  "actualizado": "2026-08-18T17:41:45.316290Z",
   "mercado": {
     "variacion_promedio": 0.0,
     "detalle_indices": {
@@ -14,6 +14,14 @@
       "Dow Jones": {
         "valor": null,
         "fuente": "N/A"
+      },
+      "Russell 2000": {
+        "valor": null,
+        "fuente": "N/A"
+      },
+      "MSCI World (proxy VT)": {
+        "valor": null,
+        "fuente": "N/A"
       }
     },
     "vix": {
@@ -22,10 +30,25 @@
     }
   },
   "oportunidades": {
-    "ETF_AMPLIO_MERCADO": [],
-    "ETF_DIVIDENDOS": [],
-    "ETF_TECH_GROWTH": [],
-    "FONDOS_INDICE": [],
-    "ACCIONES_DIVERSIFICADAS": []
+    "CORE_GLOBAL": {
+      "ranking": [],
+      "mejor_opcion": null
+    },
+    "DIVIDENDOS": {
+      "ranking": [],
+      "mejor_opcion": null
+    },
+    "GROWTH_TECH": {
+      "ranking": [],
+      "mejor_opcion": null
+    },
+    "BONOS_RENTA_FIJA": {
+      "ranking": [],
+      "mejor_opcion": null
+    },
+    "SATELITE": {
+      "ranking": [],
+      "mejor_opcion": null
+    }
   }
 }
