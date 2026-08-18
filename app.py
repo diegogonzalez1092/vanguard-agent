@@ -61,11 +61,17 @@ target_weights_base = RISK_PROFILES[perfil]
 
 # --- Snapshot de mercado ---
 snapshot = cargar_snapshot()
+
+# Si ya refrescamos en esta sesion, usamos esa version en memoria en vez
+# de volver a leer el archivo viejo del disco en cada click.
+if "snapshot_en_vivo" in st.session_state:
+    snapshot = st.session_state["snapshot_en_vivo"]
+
 col1, col2 = st.columns([3, 1])
 with col1:
     if snapshot:
         fecha = snapshot["actualizado"].replace("T", " ").split(".")[0]
-        st.caption(f"🕒 Datos actualizados automáticamente: {fecha} UTC")
+        st.caption(f"🕒 Datos actualizados: {fecha} UTC")
     else:
         st.caption("⚠️ Todavía no hay snapshot automático generado.")
 with col2:
@@ -74,6 +80,7 @@ with col2:
 if refrescar or snapshot is None:
     with st.spinner("Consultando mercado en vivo..."):
         snapshot = calcular_snapshot_en_vivo()
+    st.session_state["snapshot_en_vivo"] = snapshot
 
 variacion = snapshot["mercado"]["variacion_promedio"]
 
