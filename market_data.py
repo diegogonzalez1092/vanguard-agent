@@ -41,14 +41,22 @@ def _variacion_yfinance(ticker: str, dias: int = 30) -> float:
     data = yf.download(ticker, period=f"{dias}d", progress=False)
     if data.empty or len(data) < 2:
         raise ValueError(f"Sin datos suficientes para {ticker} (yfinance)")
-    inicio = float(data["Close"].iloc[0])
-    fin = float(data["Close"].iloc[-1])
+
+    cierre = data["Close"]
+    # Desde ciertas versiones de yfinance, "Close" puede venir como
+    # DataFrame de una sola columna (formato multi-ticker) en vez de
+    # Series simple. Nos aseguramos de trabajar siempre con una Series.
+    if hasattr(cierre, "columns"):
+        cierre = cierre.iloc[:, 0]
+
+    inicio = float(cierre.iloc[0])
+    fin = float(cierre.iloc[-1])
     return round(((fin - inicio) / inicio) * 100, 2)
 
 
 def _variacion_stooq(ticker_yahoo: str, dias: int = 30) -> float:
     """Fuente secundaria de respaldo. Stooq usa simbolos distintos a Yahoo."""
-    import pandas_datareader.data as web
+    from pandas_datareader.stooq import StooqDailyReader
     import datetime
 
     simbolo = MAPA_STOOQ_INDICES.get(ticker_yahoo, ticker_yahoo)
@@ -59,8 +67,14 @@ def _variacion_stooq(ticker_yahoo: str, dias: int = 30) -> float:
 
     fin = datetime.date.today()
     inicio = fin - datetime.timedelta(days=dias + 5)
-    data = web.DataReader(simbolo, "stooq", inicio, fin)
+
+    # Se usa el lector de Stooq directamente (en vez del despachador
+    # generico DataReader(source="stooq")), que en algunos entornos
+    # no reconoce "stooq" como fuente valida.
+    reader = StooqDailyReader(symbols=simbolo, start=inicio, end=fin)
+    data = reader.read()
     data = data.sort_index()
+
     if data.empty or len(data) < 2:
         raise ValueError(f"Sin datos suficientes para {simbolo} (stooq)")
     precio_inicio = float(data["Close"].iloc[0])
