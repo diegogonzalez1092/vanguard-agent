@@ -1,6 +1,7 @@
 """
 portfolio_data.py
-Datos de la cartera actual del usuario y su clasificacion por categoria.
+Datos de la cartera actual del usuario, clasificacion por categoria,
+y perfiles de riesgo (pesos objetivo segun perfil moderado o agresivo).
 """
 
 # Valor actual de cada posicion (en USD)
@@ -24,18 +25,31 @@ PORTFOLIO = {
     "HRTX": 67.92,
 }
 
-# Clasificacion de cada ticker por categoria de inversion
+# Clasificacion de cada ticker de la cartera por categoria de inversion.
+# Las categorias coinciden con las usadas en screener.py para poder
+# cruzar "cuanto tengo hoy" con "cual es la mejor opcion del mercado".
 CATEGORY_MAP = {
     "CORE_GLOBAL": ["VTSAX", "VXUS", "VEA", "VLXVX"],
     "DIVIDENDOS": ["VYM", "VYMI", "SCHD"],
     "GROWTH_TECH": ["QQQ", "MRVL", "NVDA", "CIBR", "VCR"],
+    "BONOS_RENTA_FIJA": [],  # todavia no tenes bonos en cartera
     "SATELITE": ["AMZN", "DELL", "UNH", "HRTX", "VSTM"],
 }
 
-# Pesos objetivo (estrategia definida por el usuario) - deben sumar 1.0
-TARGET_WEIGHTS = {
-    "CORE_GLOBAL": 0.50,
-    "DIVIDENDOS": 0.20,
-    "GROWTH_TECH": 0.20,
-    "SATELITE": 0.10,
+# Pesos objetivo segun perfil de riesgo. Deben sumar 1.0 cada uno.
+RISK_PROFILES = {
+    "MODERADO": {
+        "CORE_GLOBAL": 0.45,
+        "DIVIDENDOS": 0.25,
+        "GROWTH_TECH": 0.15,
+        "BONOS_RENTA_FIJA": 0.10,
+        "SATELITE": 0.05,
+    },
+    "AGRESIVO": {
+        "CORE_GLOBAL": 0.35,
+        "DIVIDENDOS": 0.10,
+        "GROWTH_TECH": 0.40,
+        "BONOS_RENTA_FIJA": 0.00,
+        "SATELITE": 0.15,
+    },
 }

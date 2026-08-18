@@ -18,6 +18,8 @@ INDICES = {
     "S&P 500": "^GSPC",
     "Nasdaq": "^IXIC",
     "Dow Jones": "^DJI",
+    "Russell 2000": "^RUT",     # empresas chicas/medianas - amplia la lectura mas alla de las grandes tech
+    "MSCI World (proxy VT)": "VT",  # mercado global, no solo EE.UU.
 }
 VOLATILIDAD = "^VIX"
 
@@ -37,7 +39,10 @@ def _variacion_stooq(ticker_yahoo: str, dias: int = 30) -> float:
     import pandas_datareader.data as web
     import datetime
 
-    mapa_stooq = {"^GSPC": "^SPX", "^IXIC": "^NDQ", "^DJI": "^DJI", "^VIX": "^VIX"}
+    mapa_stooq = {
+        "^GSPC": "^SPX", "^IXIC": "^NDQ", "^DJI": "^DJI", "^VIX": "^VIX",
+        "^RUT": "^RUT", "VT": "VT.US",
+    }
     simbolo = mapa_stooq.get(ticker_yahoo, ticker_yahoo)
 
     fin = datetime.date.today()
