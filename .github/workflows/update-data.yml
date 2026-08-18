@@ -34,4 +34,10 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/market_snapshot.json
           git diff --staged --quiet || git commit -m "Actualizar snapshot de mercado [automatico]"
-          git push
+
+          # Empuja el commit a ambas ramas para que main y
+          # claude/new-session-7q6gg3 se mantengan siempre sincronizadas.
+          for branch in main claude/new-session-7q6gg3; do
+            git push origin HEAD:"$branch" \
+              || echo "::warning::No se pudo actualizar '$branch' (fast-forward rechazado); revisar manualmente."
+          done
