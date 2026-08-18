@@ -138,7 +138,27 @@ if st.button("Calcular recomendación", type="primary"):
             )
         else:
             st.write(f"- **{nombre_categoria}**: sin datos de mercado disponibles todavía, "
-                      f"revisar manualmente (${monto_cat:.2f}). Probá tocar '🔄 Refrescar ahora' arriba.")
+                      f"revisar manualmente (${monto_cat:.2f}).")
+
+    # --- Diagnóstico técnico: por qué falló la obtención de datos ---
+    categorias_sin_datos = [
+        cat for cat, monto_cat in asignacion.items()
+        if monto_cat > 0 and not snapshot["oportunidades"].get(cat, {}).get("mejor_opcion")
+    ]
+    if categorias_sin_datos:
+        with st.expander("🔧 Ver diagnóstico técnico (por qué faltan datos)"):
+            from market_data import obtener_variacion
+            from screener import UNIVERSO_CANDIDATOS
+            for cat in categorias_sin_datos:
+                st.write(f"**{etiquetas.get(cat, cat)}**")
+                candidatos = UNIVERSO_CANDIDATOS.get(cat, [])
+                if not candidatos:
+                    st.write("  Sin tickers definidos para esta categoría.")
+                    continue
+                ticker_prueba = candidatos[0][0]
+                with st.spinner(f"Probando {ticker_prueba} en vivo..."):
+                    resultado = obtener_variacion(ticker_prueba, dias=30)
+                st.json(resultado)
 
 st.divider()
 

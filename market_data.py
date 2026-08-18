@@ -72,9 +72,11 @@ def obtener_variacion(ticker: str, dias: int = 30) -> dict:
     """
     Intenta obtener la variacion de un ticker probando varias fuentes.
     Sirve tanto para indices como para tickers individuales (acciones,
-    ETFs, fondos). Devuelve {"valor": float, "fuente": str} o
-    {"valor": None, "fuente": "N/A"} si todas las fuentes fallan.
+    ETFs, fondos). Devuelve {"valor": float, "fuente": str} si alguna
+    fuente funciona, o {"valor": None, "fuente": "N/A", "errores": {...}}
+    con el detalle de por que fallo cada fuente, para poder diagnosticar.
     """
+    errores = {}
     for nombre_fuente, funcion in [
         ("Yahoo Finance", _variacion_yfinance),
         ("Stooq", _variacion_stooq),
@@ -82,9 +84,10 @@ def obtener_variacion(ticker: str, dias: int = 30) -> dict:
         try:
             valor = funcion(ticker, dias)
             return {"valor": valor, "fuente": nombre_fuente}
-        except Exception:
+        except Exception as e:
+            errores[nombre_fuente] = f"{type(e).__name__}: {e}"
             continue
-    return {"valor": None, "fuente": "N/A"}
+    return {"valor": None, "fuente": "N/A", "errores": errores}
 
 
 def obtener_senal_compuesta(dias: int = 30) -> dict:
