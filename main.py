@@ -9,7 +9,7 @@ Uso:
 
 import sys
 
-from portfolio_data import PORTFOLIO, CATEGORY_MAP, TARGET_WEIGHTS
+from portfolio_data import PORTFOLIO, CATEGORY_MAP, RISK_PROFILES
 from agent import (
     calcular_pesos_actuales,
     obtener_senal_mercado,
@@ -20,35 +20,51 @@ from agent import (
 )
 
 
-def ejecutar_agente(monto: float, variacion_mercado_pct: float):
+def pedir_perfil() -> str:
+    perfiles_disponibles = list(RISK_PROFILES.keys())
+    etiquetas = "/".join(perfiles_disponibles)
+    while True:
+        perfil = input(f"Perfil de riesgo ({etiquetas}): ").strip().upper()
+        if perfil in RISK_PROFILES:
+            return perfil
+        print(f"[!] Perfil invalido. Opciones: {etiquetas}")
+
+
+def ejecutar_agente(monto: float, variacion_mercado_pct: float, perfil: str):
+    target_weights = RISK_PROFILES[perfil]
+
     print(f"\n{'='*50}")
-    print(f"  AGENTE DE INVERSION VANGUARD - Aporte: ${monto}")
+    print(f"  AGENTE DE INVERSION VANGUARD - Aporte: ${monto} - Perfil: {perfil}")
     print(f"{'='*50}\n")
 
     pesos_actuales = calcular_pesos_actuales(PORTFOLIO, CATEGORY_MAP)
     senal = obtener_senal_mercado(variacion_mercado_pct)
-    targets_ajustados = ajustar_targets_por_senal(TARGET_WEIGHTS, senal)
+    targets_ajustados = ajustar_targets_por_senal(target_weights, senal)
     brecha = calcular_brecha(pesos_actuales, targets_ajustados)
     asignacion = asignar_monto(monto, brecha)
     recomendaciones = recomendar_tickers(asignacion, CATEGORY_MAP, PORTFOLIO)
 
     print(f"Senal de mercado ({variacion_mercado_pct}%): {senal}\n")
-    print(f"{'Categoria':<15}{'Peso actual':<15}{'Target ajustado':<18}{'Monto a invertir'}")
-    print("-" * 65)
-    for cat in CATEGORY_MAP:
-        print(f"{cat:<15}{pesos_actuales[cat]*100:>6.2f}%       "
+    print(f"{'Categoria':<20}{'Peso actual':<15}{'Target ajustado':<18}{'Monto a invertir'}")
+    print("-" * 70)
+    for cat in target_weights:
+        print(f"{cat:<20}{pesos_actuales.get(cat, 0)*100:>6.2f}%       "
               f"{targets_ajustados[cat]*100:>6.2f}%           "
               f"${asignacion[cat]:.2f}")
 
     print("\nRecomendacion de compra:")
-    for cat, data in recomendaciones.items():
-        print(f"  -> Comprar {data['ticker']} por ${data['monto']} ({cat})")
+    if recomendaciones:
+        for cat, data in recomendaciones.items():
+            print(f"  -> Comprar {data['ticker']} por ${data['monto']} ({cat})")
+    else:
+        print("  (Sin recomendaciones este mes)")
 
 
 def main():
     modo_manual = "--manual" in sys.argv
 
     monto_aporte = float(input("Monto a invertir este mes ($300 / $500 / $1000): "))
+    perfil = pedir_perfil()
 
     if modo_manual:
         variacion = float(input("Variacion % del mercado este mes (ej: -6.5): "))
@@ -70,7 +86,7 @@ def main():
             print("\n[!] No se encontraron las librerias de datos de mercado instaladas. Usando modo manual.")
             variacion = float(input("Variacion % del mercado este mes (ej: -6.5): "))
 
-    ejecutar_agente(monto_aporte, variacion)
+    ejecutar_agente(monto_aporte, variacion, perfil)
 
 
 if __name__ == "__main__":

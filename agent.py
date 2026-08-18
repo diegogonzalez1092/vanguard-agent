@@ -90,6 +90,8 @@ def recomendar_tickers(asignacion_categoria: dict, category_map: dict, portfolio
         if monto <= 0:
             continue
         tickers = category_map[categoria]
+        if not tickers:
+            continue
         ticker_sugerido = min(tickers, key=lambda t: portfolio.get(t, 0))
         recomendaciones[categoria] = {
             "ticker": ticker_sugerido,
