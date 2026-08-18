@@ -6,10 +6,16 @@ si alguna falla:
   1) Yahoo Finance (via yfinance) - fuente primaria
   2) Stooq (via pandas_datareader) - fuente secundaria de respaldo
 
+Se usa tanto para indices de mercado (senal compuesta) como para tickers
+individuales (screener.py), ya que Yahoo Finance a veces bloquea o limita
+las consultas desde servidores en la nube (como Streamlit Cloud), y Stooq
+sirve de respaldo quesi funciona en esos casos.
+
 Nota: Vanguard no ofrece una API publica gratuita de datos de mercado.
 Como aproximacion robusta, se combinan varios indices (S&P 500, Nasdaq,
-Dow Jones) y el VIX (indice de volatilidad) para armar una senal compuesta,
-en vez de depender de un unico ticker o fuente.
+Dow Jones, Russell 2000, mercado global) y el VIX (indice de volatilidad)
+para armar una senal compuesta, en vez de depender de un unico ticker o
+fuente.
 """
 
 import statistics
@@ -22,6 +28,12 @@ INDICES = {
     "MSCI World (proxy VT)": "VT",  # mercado global, no solo EE.UU.
 }
 VOLATILIDAD = "^VIX"
+
+# Simbolos de indices que Stooq nombra distinto a Yahoo Finance.
+MAPA_STOOQ_INDICES = {
+    "^GSPC": "^SPX", "^IXIC": "^NDQ", "^DJI": "^DJI", "^VIX": "^VIX",
+    "^RUT": "^RUT", "VT": "VT.US",
+}
 
 
 def _variacion_yfinance(ticker: str, dias: int = 30) -> float:
@@ -39,11 +51,11 @@ def _variacion_stooq(ticker_yahoo: str, dias: int = 30) -> float:
     import pandas_datareader.data as web
     import datetime
 
-    mapa_stooq = {
-        "^GSPC": "^SPX", "^IXIC": "^NDQ", "^DJI": "^DJI", "^VIX": "^VIX",
-        "^RUT": "^RUT", "VT": "VT.US",
-    }
-    simbolo = mapa_stooq.get(ticker_yahoo, ticker_yahoo)
+    simbolo = MAPA_STOOQ_INDICES.get(ticker_yahoo, ticker_yahoo)
+    # Para tickers de acciones/ETFs individuales (no indices), Stooq
+    # requiere el sufijo .US si no vinieron ya mapeados arriba.
+    if not simbolo.startswith("^") and "." not in simbolo:
+        simbolo = f"{simbolo}.US"
 
     fin = datetime.date.today()
     inicio = fin - datetime.timedelta(days=dias + 5)
@@ -59,8 +71,9 @@ def _variacion_stooq(ticker_yahoo: str, dias: int = 30) -> float:
 def obtener_variacion(ticker: str, dias: int = 30) -> dict:
     """
     Intenta obtener la variacion de un ticker probando varias fuentes.
-    Devuelve {"valor": float, "fuente": str} o {"valor": None, "fuente": "N/A"}
-    si todas las fuentes fallan.
+    Sirve tanto para indices como para tickers individuales (acciones,
+    ETFs, fondos). Devuelve {"valor": float, "fuente": str} o
+    {"valor": None, "fuente": "N/A"} si todas las fuentes fallan.
     """
     for nombre_fuente, funcion in [
         ("Yahoo Finance", _variacion_yfinance),

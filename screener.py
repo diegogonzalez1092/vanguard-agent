@@ -73,28 +73,26 @@ UNIVERSO_CANDIDATOS = {
 TOLERANCIA_VANGUARD_PCT = 1.0  # si un fondo Vanguard esta a <=1pt del mejor, se prioriza
 
 
-def _rendimiento_1m(ticker: str) -> float | None:
-    try:
-        import yfinance as yf
-        data = yf.download(ticker, period="1mo", progress=False)
-        if data.empty or len(data) < 2:
-            return None
-        inicio = float(data["Close"].iloc[0])
-        fin = float(data["Close"].iloc[-1])
-        return round(((fin - inicio) / inicio) * 100, 2)
-    except Exception:
-        return None
+def _rendimiento_1m(ticker: str) -> dict:
+    """
+    Obtiene el rendimiento de 1 mes usando el mismo mecanismo multi-fuente
+    (Yahoo Finance -> Stooq) que market_data.py, para no depender solo de
+    Yahoo (que a veces bloquea consultas desde servidores en la nube).
+    """
+    from market_data import obtener_variacion
+    return obtener_variacion(ticker, dias=30)
 
 
 def rankear_categoria(candidatos: list[tuple[str, bool]], top_n: int = 5) -> list[dict]:
     resultados = []
     for ticker, es_vanguard in candidatos:
-        rendimiento = _rendimiento_1m(ticker)
-        if rendimiento is not None:
+        resultado = _rendimiento_1m(ticker)
+        if resultado["valor"] is not None:
             resultados.append({
                 "ticker": ticker,
                 "nombre": NOMBRES.get(ticker, ticker),
-                "rendimiento_1m_pct": rendimiento,
+                "rendimiento_1m_pct": resultado["valor"],
+                "fuente": resultado["fuente"],
                 "vanguard": es_vanguard,
             })
     resultados.sort(key=lambda x: x["rendimiento_1m_pct"], reverse=True)
