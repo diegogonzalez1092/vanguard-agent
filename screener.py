@@ -10,6 +10,41 @@ NO es una recomendacion de inversion personalizada. El rendimiento pasado
 no garantiza rendimiento futuro.
 """
 
+# Nombre completo de cada fondo/ETF/empresa, para mostrar junto al ticker.
+NOMBRES = {
+    "VTI": "Vanguard Total Stock Market ETF",
+    "VOO": "Vanguard S&P 500 ETF",
+    "VXUS": "Vanguard Total International Stock ETF",
+    "VT": "Vanguard Total World Stock ETF",
+    "SPY": "SPDR S&P 500 ETF Trust",
+    "IVV": "iShares Core S&P 500 ETF",
+    "VTSAX": "Vanguard Total Stock Market Index Fund",
+    "VFIAX": "Vanguard 500 Index Fund (Admiral)",
+    "VYM": "Vanguard High Dividend Yield ETF",
+    "VIG": "Vanguard Dividend Appreciation ETF",
+    "VYMI": "Vanguard International High Dividend Yield ETF",
+    "SCHD": "Schwab U.S. Dividend Equity ETF",
+    "HDV": "iShares Core High Dividend ETF",
+    "DVY": "iShares Select Dividend ETF",
+    "VUG": "Vanguard Growth ETF",
+    "VGT": "Vanguard Information Technology ETF",
+    "VOOG": "Vanguard S&P 500 Growth ETF",
+    "QQQ": "Invesco QQQ Trust (Nasdaq-100)",
+    "XLK": "Technology Select Sector SPDR Fund",
+    "SOXX": "iShares Semiconductor ETF",
+    "BND": "Vanguard Total Bond Market ETF",
+    "BNDX": "Vanguard Total International Bond ETF",
+    "VTEB": "Vanguard Tax-Exempt Bond ETF",
+    "AGG": "iShares Core U.S. Aggregate Bond ETF",
+    "TLT": "iShares 20+ Year Treasury Bond ETF",
+    "VNQ": "Vanguard Real Estate ETF",
+    "VDE": "Vanguard Energy ETF",
+    "VHT": "Vanguard Health Care ETF",
+    "VFH": "Vanguard Financials ETF",
+    "XOM": "Exxon Mobil Corp",
+    "JPM": "JPMorgan Chase & Co",
+}
+
 # Cada tupla es (ticker, es_vanguard). Las categorias coinciden con
 # CATEGORY_MAP de portfolio_data.py para poder cruzar cartera <-> mercado.
 UNIVERSO_CANDIDATOS = {
@@ -58,6 +93,7 @@ def rankear_categoria(candidatos: list[tuple[str, bool]], top_n: int = 5) -> lis
         if rendimiento is not None:
             resultados.append({
                 "ticker": ticker,
+                "nombre": NOMBRES.get(ticker, ticker),
                 "rendimiento_1m_pct": rendimiento,
                 "vanguard": es_vanguard,
             })

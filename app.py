@@ -92,6 +92,14 @@ monto_custom = st.number_input("...o un monto personalizado (0 = usar el de arri
 if monto_custom > 0:
     monto = monto_custom
 
+etiquetas = {
+    "CORE_GLOBAL": "Core Global",
+    "DIVIDENDOS": "Dividendos",
+    "GROWTH_TECH": "Growth Tech",
+    "BONOS_RENTA_FIJA": "Bonos Renta Fija",
+    "SATELITE": "Satélite",
+}
+
 # --- Cálculo principal ---
 if st.button("Calcular recomendación", type="primary"):
     pesos_actuales = calcular_pesos_actuales(PORTFOLIO, CATEGORY_MAP)
@@ -106,7 +114,7 @@ if st.button("Calcular recomendación", type="primary"):
     tabla = []
     for cat in target_weights_base:
         tabla.append({
-            "Categoría": cat,
+            "Categoría": etiquetas.get(cat, cat),
             "Peso actual": f"{pesos_actuales.get(cat, 0)*100:.2f}%",
             "Target ajustado": f"{targets_ajustados[cat]*100:.2f}%",
             "Monto a invertir": f"${asignacion[cat]:.2f}",
@@ -120,32 +128,28 @@ if st.button("Calcular recomendación", type="primary"):
     for cat, monto_cat in asignacion.items():
         if monto_cat <= 0:
             continue
+        nombre_categoria = etiquetas.get(cat, cat)
         mejor = snapshot["oportunidades"].get(cat, {}).get("mejor_opcion")
         if mejor:
             tag = "🟢 Vanguard" if mejor["vanguard"] else "⚪ No Vanguard"
             st.write(
-                f"- **Comprar {mejor['ticker']}** por **${monto_cat:.2f}** en *{cat}* "
-                f"({tag}, rendimiento 1 mes: {mejor['rendimiento_1m_pct']}%)"
+                f"- **{nombre_categoria}** ({tag}): comprar **{mejor['nombre']} ({mejor['ticker']})** "
+                f"por **${monto_cat:.2f}** — rendimiento último mes: {mejor['rendimiento_1m_pct']}%"
             )
         else:
-            st.write(f"- {cat}: sin datos de mercado disponibles, se recomienda revisar manualmente (${monto_cat:.2f})")
+            st.write(f"- **{nombre_categoria}**: sin datos de mercado disponibles todavía, "
+                      f"revisar manualmente (${monto_cat:.2f}). Probá tocar '🔄 Refrescar ahora' arriba.")
 
 st.divider()
 
 # --- Oportunidades del mercado, vista completa ---
 st.subheader("🔎 Oportunidades del mercado por categoría")
-etiquetas = {
-    "CORE_GLOBAL": "Core global (diversificado)",
-    "DIVIDENDOS": "Dividendos",
-    "GROWTH_TECH": "Growth / Tecnología",
-    "BONOS_RENTA_FIJA": "Bonos / Renta fija",
-    "SATELITE": "Satélite (sectores puntuales)",
-}
 for categoria, datos in snapshot["oportunidades"].items():
     st.write(f"**{etiquetas.get(categoria, categoria)}**")
     for item in datos["ranking"]:
         tag = "🟢" if item["vanguard"] else "⚪"
-        st.write(f"  {tag} {item['ticker']}: {item['rendimiento_1m_pct']}% (último mes)")
+        nombre = item.get("nombre", item["ticker"])
+        st.write(f"  {tag} {nombre} ({item['ticker']}): {item['rendimiento_1m_pct']}% (último mes)")
 
 st.divider()
 with st.expander("Ver cartera actual cargada"):
