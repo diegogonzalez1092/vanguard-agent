@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-09-04T21:01:36.046422Z",
+  "actualizado": "2026-09-07T14:17:54.885861Z",
   "mercado": {
     "variacion_promedio": 3.68,
     "detalle_indices": {
@@ -25,7 +25,7 @@
       }
     },
     "vix": {
-      "valor": -22.17,
+      "valor": -16.75,
       "fuente": "Yahoo Finance"
     }
   },
@@ -49,16 +49,9 @@
         {
           "ticker": "VFIAX",
           "nombre": "Vanguard 500 Index Fund (Admiral)",
-          "rendimiento_1m_pct": 4.64,
+          "rendimiento_1m_pct": 4.26,
           "fuente": "Yahoo Finance",
           "vanguard": false
-        },
-        {
-          "ticker": "VTSAX",
-          "nombre": "Vanguard Total Stock Market Index Fund",
-          "rendimiento_1m_pct": 4.33,
-          "fuente": "Yahoo Finance",
-          "vanguard": true
         },
         {
           "ticker": "VOO",
@@ -66,6 +59,13 @@
           "rendimiento_1m_pct": 4.22,
           "fuente": "Yahoo Finance",
           "vanguard": true
+        },
+        {
+          "ticker": "IVV",
+          "nombre": "iShares Core S&P 500 ETF",
+          "rendimiento_1m_pct": 4.22,
+          "fuente": "Yahoo Finance",
+          "vanguard": false
         }
       ],
       "mejor_opcion": {
