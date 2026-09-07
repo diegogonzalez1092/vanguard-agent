@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-09-07T14:17:54.885861Z",
+  "actualizado": "2026-09-07T21:01:51.360636Z",
   "mercado": {
     "variacion_promedio": 3.68,
     "detalle_indices": {
@@ -25,7 +25,7 @@
       }
     },
     "vix": {
-      "valor": -16.75,
+      "valor": -15.98,
       "fuente": "Yahoo Finance"
     }
   },
