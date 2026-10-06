@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-10-05T21:27:16.577335Z",
+  "actualizado": "2026-10-06T01:34:46.190530Z",
   "mercado": {
     "variacion_promedio": -0.27,
     "detalle_indices": {
@@ -54,18 +54,18 @@
           "vanguard": false
         },
         {
+          "ticker": "VFIAX",
+          "nombre": "Vanguard 500 Index Fund (Admiral)",
+          "rendimiento_1m_pct": 1.71,
+          "fuente": "Yahoo Finance",
+          "vanguard": false
+        },
+        {
           "ticker": "VTI",
           "nombre": "Vanguard Total Stock Market ETF",
           "rendimiento_1m_pct": 1.19,
           "fuente": "Yahoo Finance",
           "vanguard": true
-        },
-        {
-          "ticker": "VFIAX",
-          "nombre": "Vanguard 500 Index Fund (Admiral)",
-          "rendimiento_1m_pct": 1.04,
-          "fuente": "Yahoo Finance",
-          "vanguard": false
         }
       ],
       "mejor_opcion": {
