@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-10-12T22:03:10.470588Z",
+  "actualizado": "2026-10-13T02:17:17.780308Z",
   "mercado": {
     "variacion_promedio": -0.7,
     "detalle_indices": {
@@ -33,18 +33,18 @@
     "CORE_GLOBAL": {
       "ranking": [
         {
-          "ticker": "VFIAX",
-          "nombre": "Vanguard 500 Index Fund (Admiral)",
-          "rendimiento_1m_pct": 1.77,
-          "fuente": "Yahoo Finance",
-          "vanguard": false
-        },
-        {
           "ticker": "VOO",
           "nombre": "Vanguard S&P 500 ETF",
           "rendimiento_1m_pct": 1.71,
           "fuente": "Yahoo Finance",
           "vanguard": true
+        },
+        {
+          "ticker": "VFIAX",
+          "nombre": "Vanguard 500 Index Fund (Admiral)",
+          "rendimiento_1m_pct": 1.71,
+          "fuente": "Yahoo Finance",
+          "vanguard": false
         },
         {
           "ticker": "SPY",
@@ -63,7 +63,7 @@
         {
           "ticker": "VTSAX",
           "nombre": "Vanguard Total Stock Market Index Fund",
-          "rendimiento_1m_pct": 1.28,
+          "rendimiento_1m_pct": 1.17,
           "fuente": "Yahoo Finance",
           "vanguard": true
         }
