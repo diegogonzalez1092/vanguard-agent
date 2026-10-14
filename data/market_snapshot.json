@@ -1,31 +1,31 @@
 {
-  "actualizado": "2026-10-14T18:29:07.995574Z",
+  "actualizado": "2026-10-14T23:31:14.861595Z",
   "mercado": {
-    "variacion_promedio": -1.99,
+    "variacion_promedio": -1.81,
     "detalle_indices": {
       "S&P 500": {
-        "valor": 0.52,
+        "valor": 0.68,
         "fuente": "Yahoo Finance"
       },
       "Nasdaq": {
-        "valor": 1.74,
+        "valor": 1.81,
         "fuente": "Yahoo Finance"
       },
       "Dow Jones": {
-        "valor": -3.04,
+        "valor": -2.71,
         "fuente": "Yahoo Finance"
       },
       "Russell 2000": {
-        "valor": -7.77,
+        "valor": -7.57,
         "fuente": "Yahoo Finance"
       },
       "MSCI World (proxy VT)": {
-        "valor": -1.4,
+        "valor": -1.27,
         "fuente": "Yahoo Finance"
       }
     },
     "vix": {
-      "valor": 19.06,
+      "valor": 17.81,
       "fuente": "Yahoo Finance"
     }
   },
@@ -49,21 +49,21 @@
         {
           "ticker": "IVV",
           "nombre": "iShares Core S&P 500 ETF",
-          "rendimiento_1m_pct": 0.64,
+          "rendimiento_1m_pct": 0.85,
           "fuente": "Yahoo Finance",
           "vanguard": false
         },
         {
           "ticker": "VOO",
           "nombre": "Vanguard S&P 500 ETF",
-          "rendimiento_1m_pct": 0.63,
+          "rendimiento_1m_pct": 0.83,
           "fuente": "Yahoo Finance",
           "vanguard": true
         },
         {
           "ticker": "SPY",
           "nombre": "SPDR S&P 500 ETF Trust",
-          "rendimiento_1m_pct": 0.63,
+          "rendimiento_1m_pct": 0.83,
           "fuente": "Yahoo Finance",
           "vanguard": false
         }
@@ -81,43 +81,43 @@
         {
           "ticker": "VIG",
           "nombre": "Vanguard Dividend Appreciation ETF",
-          "rendimiento_1m_pct": -0.55,
+          "rendimiento_1m_pct": -0.3,
           "fuente": "Yahoo Finance",
           "vanguard": true
         },
         {
           "ticker": "HDV",
           "nombre": "iShares Core High Dividend ETF",
-          "rendimiento_1m_pct": -0.7,
+          "rendimiento_1m_pct": -0.48,
           "fuente": "Yahoo Finance",
           "vanguard": false
         },
         {
           "ticker": "VYM",
           "nombre": "Vanguard High Dividend Yield ETF",
-          "rendimiento_1m_pct": -2.97,
+          "rendimiento_1m_pct": -2.65,
           "fuente": "Yahoo Finance",
           "vanguard": true
         },
         {
           "ticker": "SCHD",
           "nombre": "Schwab U.S. Dividend Equity ETF",
-          "rendimiento_1m_pct": -3.2,
+          "rendimiento_1m_pct": -2.95,
           "fuente": "Yahoo Finance",
           "vanguard": false
         },
         {
-          "ticker": "VYMI",
-          "nombre": "Vanguard International High Dividend Yield ETF",
-          "rendimiento_1m_pct": -4.02,
+          "ticker": "DVY",
+          "nombre": "iShares Select Dividend ETF",
+          "rendimiento_1m_pct": -3.72,
           "fuente": "Yahoo Finance",
-          "vanguard": true
+          "vanguard": false
         }
       ],
       "mejor_opcion": {
         "ticker": "VIG",
         "nombre": "Vanguard Dividend Appreciation ETF",
-        "rendimiento_1m_pct": -0.55,
+        "rendimiento_1m_pct": -0.3,
         "fuente": "Yahoo Finance",
         "vanguard": true
       }
@@ -125,16 +125,16 @@
     "GROWTH_TECH": {
       "ranking": [
         {
-          "ticker": "SOXX",
-          "nombre": "iShares Semiconductor ETF",
-          "rendimiento_1m_pct": 3.92,
+          "ticker": "XLK",
+          "nombre": "Technology Select Sector SPDR Fund",
+          "rendimiento_1m_pct": 3.84,
           "fuente": "Yahoo Finance",
           "vanguard": false
         },
         {
-          "ticker": "XLK",
-          "nombre": "Technology Select Sector SPDR Fund",
-          "rendimiento_1m_pct": 3.88,
+          "ticker": "SOXX",
+          "nombre": "iShares Semiconductor ETF",
+          "rendimiento_1m_pct": 3.65,
           "fuente": "Yahoo Finance",
           "vanguard": false
         },
@@ -148,14 +148,14 @@
         {
           "ticker": "QQQ",
           "nombre": "Invesco QQQ Trust (Nasdaq-100)",
-          "rendimiento_1m_pct": 2.85,
+          "rendimiento_1m_pct": 2.89,
           "fuente": "Yahoo Finance",
           "vanguard": false
         },
         {
           "ticker": "VUG",
           "nombre": "Vanguard Growth ETF",
-          "rendimiento_1m_pct": 2.6,
+          "rendimiento_1m_pct": 2.69,
           "fuente": "Yahoo Finance",
           "vanguard": true
         }
@@ -173,35 +173,35 @@
         {
           "ticker": "BNDX",
           "nombre": "Vanguard Total International Bond ETF",
-          "rendimiento_1m_pct": -0.11,
+          "rendimiento_1m_pct": -0.18,
           "fuente": "Yahoo Finance",
           "vanguard": true
         },
         {
           "ticker": "BND",
           "nombre": "Vanguard Total Bond Market ETF",
-          "rendimiento_1m_pct": -1.59,
+          "rendimiento_1m_pct": -1.64,
           "fuente": "Yahoo Finance",
           "vanguard": true
         },
         {
           "ticker": "AGG",
           "nombre": "iShares Core U.S. Aggregate Bond ETF",
-          "rendimiento_1m_pct": -1.69,
+          "rendimiento_1m_pct": -1.74,
           "fuente": "Yahoo Finance",
           "vanguard": false
         },
         {
           "ticker": "VTEB",
           "nombre": "Vanguard Tax-Exempt Bond ETF",
-          "rendimiento_1m_pct": -2.55,
+          "rendimiento_1m_pct": -2.46,
           "fuente": "Yahoo Finance",
           "vanguard": true
         },
         {
           "ticker": "TLT",
           "nombre": "iShares 20+ Year Treasury Bond ETF",
-          "rendimiento_1m_pct": -3.29,
+          "rendimiento_1m_pct": -3.35,
           "fuente": "Yahoo Finance",
           "vanguard": false
         }
@@ -209,7 +209,7 @@
       "mejor_opcion": {
         "ticker": "BNDX",
         "nombre": "Vanguard Total International Bond ETF",
-        "rendimiento_1m_pct": -0.11,
+        "rendimiento_1m_pct": -0.18,
         "fuente": "Yahoo Finance",
         "vanguard": true
       }
@@ -219,35 +219,35 @@
         {
           "ticker": "XOM",
           "nombre": "Exxon Mobil Corp",
-          "rendimiento_1m_pct": 7.93,
+          "rendimiento_1m_pct": 7.83,
           "fuente": "Yahoo Finance",
           "vanguard": false
         },
         {
           "ticker": "VDE",
           "nombre": "Vanguard Energy ETF",
-          "rendimiento_1m_pct": 3.22,
+          "rendimiento_1m_pct": 3.23,
           "fuente": "Yahoo Finance",
           "vanguard": true
         },
         {
           "ticker": "VHT",
           "nombre": "Vanguard Health Care ETF",
-          "rendimiento_1m_pct": -0.22,
+          "rendimiento_1m_pct": -0.1,
           "fuente": "Yahoo Finance",
           "vanguard": true
         },
         {
           "ticker": "VNQ",
           "nombre": "Vanguard Real Estate ETF",
-          "rendimiento_1m_pct": -4.65,
+          "rendimiento_1m_pct": -4.85,
           "fuente": "Yahoo Finance",
           "vanguard": true
         },
         {
           "ticker": "JPM",
           "nombre": "JPMorgan Chase & Co",
-          "rendimiento_1m_pct": -5.87,
+          "rendimiento_1m_pct": -5.41,
           "fuente": "Yahoo Finance",
           "vanguard": false
         }
@@ -255,7 +255,7 @@
       "mejor_opcion": {
         "ticker": "XOM",
         "nombre": "Exxon Mobil Corp",
-        "rendimiento_1m_pct": 7.93,
+        "rendimiento_1m_pct": 7.83,
         "fuente": "Yahoo Finance",
         "vanguard": false
       }
