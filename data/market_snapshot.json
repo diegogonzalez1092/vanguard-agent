@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-16T23:17:58.831876Z",
+  "actualizado": "2026-11-17T03:15:27.893481Z",
   "mercado": {
     "variacion_promedio": -4.89,
     "detalle_indices": {
@@ -33,23 +33,16 @@
     "CORE_GLOBAL": {
       "ranking": [
         {
-          "ticker": "VTSAX",
-          "nombre": "Vanguard Total Stock Market Index Fund",
-          "rendimiento_1m_pct": -2.98,
+          "ticker": "VTI",
+          "nombre": "Vanguard Total Stock Market ETF",
+          "rendimiento_1m_pct": -4.77,
           "fuente": "Yahoo Finance",
           "vanguard": true
         },
         {
-          "ticker": "VFIAX",
-          "nombre": "Vanguard 500 Index Fund (Admiral)",
-          "rendimiento_1m_pct": -3.21,
-          "fuente": "Yahoo Finance",
-          "vanguard": false
-        },
-        {
-          "ticker": "VTI",
-          "nombre": "Vanguard Total Stock Market ETF",
-          "rendimiento_1m_pct": -4.77,
+          "ticker": "VTSAX",
+          "nombre": "Vanguard Total Stock Market Index Fund",
+          "rendimiento_1m_pct": -4.81,
           "fuente": "Yahoo Finance",
           "vanguard": true
         },
@@ -66,12 +59,19 @@
           "rendimiento_1m_pct": -5.02,
           "fuente": "Yahoo Finance",
           "vanguard": true
+        },
+        {
+          "ticker": "SPY",
+          "nombre": "SPDR S&P 500 ETF Trust",
+          "rendimiento_1m_pct": -5.02,
+          "fuente": "Yahoo Finance",
+          "vanguard": false
         }
       ],
       "mejor_opcion": {
-        "ticker": "VTSAX",
-        "nombre": "Vanguard Total Stock Market Index Fund",
-        "rendimiento_1m_pct": -2.98,
+        "ticker": "VTI",
+        "nombre": "Vanguard Total Stock Market ETF",
+        "rendimiento_1m_pct": -4.77,
         "fuente": "Yahoo Finance",
         "vanguard": true
       }
@@ -238,16 +238,16 @@
           "vanguard": true
         },
         {
-          "ticker": "JPM",
-          "nombre": "JPMorgan Chase & Co",
+          "ticker": "XOM",
+          "nombre": "Exxon Mobil Corp",
           "rendimiento_1m_pct": 2.09,
           "fuente": "Yahoo Finance",
           "vanguard": false
         },
         {
-          "ticker": "XOM",
-          "nombre": "Exxon Mobil Corp",
-          "rendimiento_1m_pct": 1.45,
+          "ticker": "JPM",
+          "nombre": "JPMorgan Chase & Co",
+          "rendimiento_1m_pct": 2.09,
           "fuente": "Yahoo Finance",
           "vanguard": false
         }
