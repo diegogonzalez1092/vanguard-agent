@@ -1,22 +1,22 @@
 {
-  "actualizado": "2026-11-21T01:50:52.438272Z",
+  "actualizado": "2026-11-24T01:35:44.905421Z",
   "mercado": {
     "variacion_promedio": NaN,
     "detalle_indices": {
       "S&P 500": {
-        "valor": -11.49,
+        "valor": -7.28,
         "fuente": "Yahoo Finance"
       },
       "Nasdaq": {
-        "valor": -16.99,
+        "valor": -11.45,
         "fuente": "Yahoo Finance"
       },
       "Dow Jones": {
-        "valor": -7.14,
+        "valor": -4.02,
         "fuente": "Yahoo Finance"
       },
       "Russell 2000": {
-        "valor": -7.61,
+        "valor": -4.09,
         "fuente": "Yahoo Finance"
       },
       "MSCI World (proxy VT)": {
@@ -25,7 +25,7 @@
       }
     },
     "vix": {
-      "valor": 135.96,
+      "valor": 74.33,
       "fuente": "Yahoo Finance"
     }
   },
