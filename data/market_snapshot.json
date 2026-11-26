@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-25T23:01:31.813069Z",
+  "actualizado": "2026-11-26T03:15:24.161952Z",
   "mercado": {
     "variacion_promedio": -6.37,
     "detalle_indices": {
@@ -35,7 +35,7 @@
         {
           "ticker": "VTSAX",
           "nombre": "Vanguard Total Stock Market Index Fund",
-          "rendimiento_1m_pct": -6.54,
+          "rendimiento_1m_pct": -6.64,
           "fuente": "Yahoo Finance",
           "vanguard": true
         },
@@ -54,24 +54,24 @@
           "vanguard": true
         },
         {
-          "ticker": "VFIAX",
-          "nombre": "Vanguard 500 Index Fund (Admiral)",
-          "rendimiento_1m_pct": -6.91,
-          "fuente": "Yahoo Finance",
-          "vanguard": false
-        },
-        {
           "ticker": "VXUS",
           "nombre": "Vanguard Total International Stock ETF",
           "rendimiento_1m_pct": -6.94,
           "fuente": "Yahoo Finance",
           "vanguard": true
+        },
+        {
+          "ticker": "IVV",
+          "nombre": "iShares Core S&P 500 ETF",
+          "rendimiento_1m_pct": -7.11,
+          "fuente": "Yahoo Finance",
+          "vanguard": false
         }
       ],
       "mejor_opcion": {
         "ticker": "VTSAX",
         "nombre": "Vanguard Total Stock Market Index Fund",
-        "rendimiento_1m_pct": -6.54,
+        "rendimiento_1m_pct": -6.64,
         "fuente": "Yahoo Finance",
         "vanguard": true
       }
